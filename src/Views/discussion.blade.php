@@ -82,7 +82,7 @@
 	                	@foreach($posts as $post)
 	                		<li data-id="{{ $post->id }}" data-markdown="{{ $post->markdown }}">
 		                		<span class="chatter_posts">
-		                			@if(!Auth::guest() && (Auth::user()->id == $post->user->id))
+		                			@if(!Sentry::guest() && (Sentry::getUser()->id == $post->user->id))
 		                				<div id="delete_warning_{{ $post->id }}" class="chatter_warning_delete">
 		                					<i class="chatter-warning"></i>Are you sure you want to delete this response?
 		                					<button class="btn btn-sm btn-danger pull-right delete_response">Yes Delete It</button>
@@ -142,7 +142,7 @@
 
 	            <div id="pagination">{{ $posts->links() }}</div>
 
-	            @if(!Auth::guest())
+	            @if(!Sentry::guest())
 
 	            	<div id="new_response">
 
@@ -152,15 +152,15 @@
 		        				<?php $db_field = Config::get('chatter.user.avatar_image_database_field'); ?>
 
 		        				<!-- If the user db field contains http:// or https:// we don't need to use the relative path to the image assets -->
-		        				@if( (substr(Auth::user()->{$db_field}, 0, 7) == 'http://') || (substr(Auth::user()->{$db_field}, 0, 8) == 'https://') )
-		        					<img src="{{ Auth::user()->{$db_field}  }}">
+		        				@if( (substr(Sentry::getUser()->{$db_field}, 0, 7) == 'http://') || (substr(Sentry::getUser()->{$db_field}, 0, 8) == 'https://') )
+		        					<img src="{{ Sentry::getUser()->{$db_field}  }}">
 		        				@else
-		        					<img src="{{ Config::get('chatter.user.relative_url_to_image_assets') . Auth::user()->{$db_field}  }}">
+		        					<img src="{{ Config::get('chatter.user.relative_url_to_image_assets') . Sentry::getUser()->{$db_field}  }}">
 		        				@endif
 
 		        			@else
-		        				<span class="chatter_avatar_circle" style="background-color:#<?= \DevDojo\Chatter\Helpers\ChatterHelper::stringToColorCode(Auth::user()->email) ?>">
-		        					{{ strtoupper(substr(Auth::user()->email, 0, 1)) }}
+		        				<span class="chatter_avatar_circle" style="background-color:#<?= \DevDojo\Chatter\Helpers\ChatterHelper::stringToColorCode(Sentry::getUser()->email) ?>">
+		        					{{ strtoupper(substr(Sentry::getUser()->email, 0, 1)) }}
 		        				</span>
 		        			@endif
 		        		</div>
@@ -199,7 +199,7 @@
 									<!-- Rounded toggle switch -->
 									<span>Notify me when someone replies</span>
 									<label class="switch">
-									  	<input type="checkbox" id="email_notification" name="email_notification" @if(!Auth::guest() && $discussion->users->contains(Auth::user()->id)){{ 'checked' }}@endif>
+									  	<input type="checkbox" id="email_notification" name="email_notification" @if(!Sentry::guest() && $discussion->users->contains(Sentry::getUser()->id)){{ 'checked' }}@endif>
 									  	<span class="on">Yes</span>
 										<span class="off">No</span>
 									  	<div class="slider round"></div>
@@ -434,7 +434,7 @@
                 $('#new_discussion_in_discussion_view').slideUp();
             });
             $('#new_discussion_btn, #cancel_discussion').click(function(){
-                @if(Auth::guest())
+                @if(Sentry::guest())
                     window.location.href = "/{{ Config::get('chatter.routes.home') }}/login";
                 @else
                     $('#new_discussion_in_discussion_view').slideDown();

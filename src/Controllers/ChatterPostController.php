@@ -2,7 +2,7 @@
 
 namespace DevDojo\Chatter\Controllers;
 
-use Auth;
+use Sentry;
 use Carbon\Carbon;
 use DevDojo\Chatter\Events\ChatterAfterNewResponse;
 use DevDojo\Chatter\Events\ChatterBeforeNewResponse;
@@ -72,7 +72,7 @@ class ChatterPostController extends Controller
             }
         }
 
-        $request->request->add(['user_id' => Auth::user()->id]);
+        $request->request->add(['user_id' => Sentry::getUser()->id]);
 
         if (config('chatter.editor') == 'simplemde'):
             $request->request->add(['markdown' => 1]);

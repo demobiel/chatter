@@ -229,7 +229,7 @@
 			$('#new_discussion').slideUp();
 		});
 		$('#new_discussion_btn, #cancel_discussion').click(function(){
-			@if(Auth::guest())
+			@if(Sentry::guest())
 				window.location.href = "/{{ Config::get('chatter.routes.home') }}/login";
 			@else
 				$('#new_discussion').slideDown();
