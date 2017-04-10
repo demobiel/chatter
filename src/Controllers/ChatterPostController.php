@@ -117,7 +117,7 @@ class ChatterPostController extends Controller
 
     private function notEnoughTimeBetweenPosts()
     {
-        $user = Auth::user();
+        $user = Sentry::getUser();
 
         $past = Carbon::now()->subMinutes(config('chatter.security.time_between_posts'));
 
@@ -132,7 +132,7 @@ class ChatterPostController extends Controller
 
     private function sendEmailNotifications($discussion)
     {
-        $users = $discussion->users->except(Auth::user()->id);
+        $users = $discussion->users->except(Sentry::getUser()->id);
         foreach ($users as $user) {
             Mail::to($user)->queue(new ChatterDiscussionUpdated($discussion));
         }
@@ -158,7 +158,7 @@ class ChatterPostController extends Controller
         }
 
         $post = Models::post()->find($id);
-        if (!Auth::guest() && (Auth::user()->id == $post->user_id)) {
+        if (Sentry::check() && (Sentry::getUser()->id == $post->user_id)) {
             $post->body = Purifier::clean($request->body);
             $post->save();
 

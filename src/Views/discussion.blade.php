@@ -82,7 +82,7 @@
 	                	@foreach($posts as $post)
 	                		<li data-id="{{ $post->id }}" data-markdown="{{ $post->markdown }}">
 		                		<span class="chatter_posts">
-		                			@if(!Sentry::guest() && (Sentry::getUser()->id == $post->user->id))
+		                			@if(Sentry::check() && (Sentry::getUser()->id == $post->user->id))
 		                				<div id="delete_warning_{{ $post->id }}" class="chatter_warning_delete">
 		                					<i class="chatter-warning"></i>Are you sure you want to delete this response?
 		                					<button class="btn btn-sm btn-danger pull-right delete_response">Yes Delete It</button>
@@ -142,7 +142,7 @@
 
 	            <div id="pagination">{{ $posts->links() }}</div>
 
-	            @if(!Sentry::guest())
+	            @if(Sentry::check())
 
 	            	<div id="new_response">
 
@@ -199,7 +199,7 @@
 									<!-- Rounded toggle switch -->
 									<span>Notify me when someone replies</span>
 									<label class="switch">
-									  	<input type="checkbox" id="email_notification" name="email_notification" @if(!Sentry::guest() && $discussion->users->contains(Sentry::getUser()->id)){{ 'checked' }}@endif>
+									  	<input type="checkbox" id="email_notification" name="email_notification" @if(Sentry::check() && $discussion->users->contains(Sentry::getUser()->id)){{ 'checked' }}@endif>
 									  	<span class="on">Yes</span>
 										<span class="off">No</span>
 									  	<div class="slider round"></div>
@@ -434,7 +434,7 @@
                 $('#new_discussion_in_discussion_view').slideUp();
             });
             $('#new_discussion_btn, #cancel_discussion').click(function(){
-                @if(Sentry::guest())
+                @if(Sentry::check())
                     window.location.href = "/{{ Config::get('chatter.routes.home') }}/login";
                 @else
                     $('#new_discussion_in_discussion_view').slideDown();
