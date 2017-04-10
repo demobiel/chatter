@@ -197,7 +197,7 @@ class ChatterPostController extends Controller
     {
         $post = Models::post()->with('discussion')->findOrFail($id);
 
-        if ($request->user()->id !== (int) $post->user_id) {
+        if (Sentry::getUser()->id !== (int) $post->user_id) {
             return redirect('/'.config('chatter.routes.home'))->with([
                 'chatter_alert_type' => 'danger',
                 'chatter_alert'      => 'Nah ah ah... Could not delete the response. Make sure you\'re not doing anything shady.',
