@@ -59,8 +59,7 @@ class ChatterDiscussionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title'               => 'required|min:5|max:255',
-            'body_content'        => 'required|min:10',
-            'chatter_category_id' => 'required',
+            'body_content'        => 'required|min:10'
         ]);
 
         Event::fire(new ChatterBeforeNewDiscussion($request, $validator));
