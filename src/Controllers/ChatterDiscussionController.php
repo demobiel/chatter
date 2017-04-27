@@ -103,7 +103,7 @@ class ChatterDiscussionController extends Controller
 
         $new_discussion = [
             'title'               => $request->title,
-            'chatter_category_id' => $request->chatter_category_id,
+            'chatter_category_id' => $request->chatter_category_id?$request->chatter_category_id:1,
             'user_id'             => $user_id,
             'slug'                => $slug,
             'color'               => $request->color,
