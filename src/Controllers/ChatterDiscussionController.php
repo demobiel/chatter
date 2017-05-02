@@ -58,8 +58,8 @@ class ChatterDiscussionController extends Controller
         $request->request->add(['body_content' => strip_tags($request->body)]);
 
         $validator = Validator::make($request->all(), [
-            'title'               => 'required|min:5|max:255',
-            'body_content'        => 'required|min:10'
+            'title'               => 'required|max:255',
+            'body_content'        => ''
         ]);
 
         Event::fire(new ChatterBeforeNewDiscussion($request, $validator));
