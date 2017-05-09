@@ -32,7 +32,7 @@ class ChatterPostController extends Controller
         if ($request->offset) {
             $offset = $request->offset;
         }
-        $posts = Models::post()->with('user')->orderBy('created_at', 'DESC')->take($total)->offset($offset)->get();
+        $posts = Models::post()->with('user')->orderBy('updated_at', 'DESC')->take($total)->offset($offset)->get();
 
         return response()->json($posts);
     }
